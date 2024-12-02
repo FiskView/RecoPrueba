@@ -1,18 +1,27 @@
-# Usa una imagen base oficial de Python
 FROM python:3.12-slim
 
-# Establece el directorio de trabajo dentro del contenedor
+# Instala herramientas esenciales y librerías necesarias
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libtiff-dev \
+    libx11-dev \
+    libatlas-base-dev \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos necesarios al contenedor
-COPY requirements.txt requirements.txt
+# Copia los archivos del proyecto al contenedor
 COPY . .
 
-# Instala las dependencias
+# Instala las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expone el puerto en el que se ejecutará la aplicación Flask (por defecto 5000)
-EXPOSE 5000
-
-# Comando para ejecutar tu aplicación usando Gunicorn
+# Comando para ejecutar la aplicación (ajústalo según tu caso)
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
