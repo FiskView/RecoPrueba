@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     libx11-dev \
     libatlas-base-dev \
     libpq-dev \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Establece el directorio de trabajo
